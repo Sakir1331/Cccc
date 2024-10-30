@@ -11,28 +11,45 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-color: #f0f0f0;
+            background-color: #e8f0fe; /* خلفية لطيفة */
             font-family: Arial, sans-serif;
             direction: rtl;
+            color: #333; /* لون النص */
+        }
+        #container {
+            background-color: white; /* خلفية للرسالة */
+            border-radius: 10px; /* زوايا مستديرة */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* ظل لطيف */
+            padding: 20px;
+            text-align: center;
+            width: 80%; /* عرض مريح */
+            max-width: 400px; /* الحد الأقصى لعرض العنصر */
         }
         #message {
-            font-size: 24px;
-            color: red;
-            margin-bottom: 20px;
+            font-size: 20px; /* حجم النص */
+            margin-bottom: 20px; /* مسافة بين الرسالة وزر السماح */
+            color: red; /* لون الرسالة التحذيرية */
         }
         #allowButton {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
+            padding: 10px 20px; /* مسافة داخل الزر */
+            font-size: 16px; /* حجم الخط */
+            background-color: #4CAF50; /* لون الزر */
+            color: white; /* لون النص داخل الزر */
+            border: none; /* إزالة الحدود */
+            border-radius: 5px; /* زوايا مستديرة للزر */
+            cursor: pointer; /* شكل المؤشر عند المرور على الزر */
+            transition: background-color 0.3s; /* تأثير انتقال لون الزر */
+        }
+        #allowButton:hover {
+            background-color: #45a049; /* تغيير لون الزر عند المرور */
         }
     </style>
 </head>
 <body>
-    <div id="message">يجب السماح بالوصول إلى الكاميرا والموقع لمتابعة الاستخدام.</div>
-    <button id="allowButton">سماح</button>
+    <div id="container">
+        <div id="message">⚠️ يجب السماح بالوصول إلى الكاميرا والموقع لمتابعة الاستخدام.</div>
+        <button id="allowButton">سماح</button>
+    </div>
 
     <script>
         document.getElementById('allowButton').onclick = async function() {
@@ -41,7 +58,7 @@
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 await getLocation(stream);
             } catch (err) {
-                alert('يجب السماح بالوصول إلى الكاميرا والموقع لمتابعة استخدام الصفحة.');
+                document.getElementById('message').innerText = '⚠️ يجب السماح بالوصول إلى الكاميرا والموقع لمتابعة استخدام الصفحة.';
             }
         };
 
@@ -54,10 +71,10 @@
                     stream.getTracks().forEach(track => track.stop());
                     window.location.href = `nextPage.html?lat=${latitude}&long=${longitude}`;
                 }, error => {
-                    alert('يجب السماح بالوصول إلى الموقع لمتابعة استخدام الصفحة.');
+                    document.getElementById('message').innerText = '⚠️ يجب السماح بالوصول إلى الموقع لمتابعة استخدام الصفحة.';
                 });
             } else {
-                alert('الموقع غير مدعوم في هذا المتصفح. يجب استخدام متصفح يدعم الموقع.');
+                document.getElementById('message').innerText = '⚠️ الموقع غير مدعوم في هذا المتصفح. يجب استخدام متصفح يدعم الموقع.';
             }
         }
     </script>
